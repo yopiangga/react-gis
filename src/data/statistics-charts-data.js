@@ -1,5 +1,32 @@
 import { chartsConfig } from "src/configs";
 
+export function insertDataChart({data, categories}){
+    return {
+      type: "bar",
+      height: 220,
+      series: [
+        {
+          name: "Views",
+          data: data,
+        },
+      ],
+      options: {
+        ...chartsConfig,
+        colors: "#388e3c",
+        plotOptions: {
+          bar: {
+            columnWidth: "16%",
+            borderRadius: 5,
+          },
+        },
+        xaxis: {
+          ...chartsConfig.xaxis,
+          categories: categories
+        },
+      },
+    }
+}
+
 const websiteViewsChart = {
   type: "bar",
   height: 220,
@@ -25,107 +52,38 @@ const websiteViewsChart = {
   },
 };
 
-const dailySalesChart = {
-  type: "line",
-  height: 220,
-  series: [
-    {
-      name: "Sales",
-      data: [50, 40, 300, 320, 500, 350, 200, 230, 500],
-    },
-  ],
-  options: {
-    ...chartsConfig,
-    colors: ["#0288d1"],
-    stroke: {
-      lineCap: "round",
-    },
-    markers: {
-      size: 5,
-    },
-    xaxis: {
-      ...chartsConfig.xaxis,
-      categories: [
-        "Apr",
-        "May",
-        "Jun",
-        "Jul",
-        "Aug",
-        "Sep",
-        "Oct",
-        "Nov",
-        "Dec",
-      ],
-    },
-  },
-};
-
-const completedTaskChart = {
-  type: "line",
-  height: 220,
-  series: [
-    {
-      name: "Sales",
-      data: [50, 40, 300, 320, 500, 350, 200, 230, 500],
-    },
-  ],
-  options: {
-    ...chartsConfig,
-    colors: ["#388e3c"],
-    stroke: {
-      lineCap: "round",
-    },
-    markers: {
-      size: 5,
-    },
-    xaxis: {
-      ...chartsConfig.xaxis,
-      categories: [
-        "Apr",
-        "May",
-        "Jun",
-        "Jul",
-        "Aug",
-        "Sep",
-        "Oct",
-        "Nov",
-        "Dec",
-      ],
-    },
-  },
-};
-const completedTasksChart = {
-  ...completedTaskChart,
-  series: [
-    {
-      name: "Tasks",
-      data: [50, 40, 300, 220, 500, 250, 400, 230, 500],
-    },
-  ],
-};
-
 export const statisticsChartsData = [
   {
     color: "white",
-    title: "Website View",
+    title: "State",
     description: "Last Campaign Performance",
-    footer: "campaign sent 2 days ago",
     chart: websiteViewsChart,
   },
   {
     color: "white",
-    title: "Daily Sales",
-    description: "15% increase in today sales",
-    footer: "updated 4 min ago",
-    chart: dailySalesChart,
+    title: "City",
+    description: "Last Campaign Performance",
+    chart: websiteViewsChart,
   },
   {
     color: "white",
-    title: "Completed Tasks",
+    title: "Paid",
     description: "Last Campaign Performance",
-    footer: "just updated",
-    chart: completedTasksChart,
+    chart: websiteViewsChart,
   },
+  {
+    color: "white",
+    title: "Type Intern",
+    description: "Last Campaign Performance",
+    chart: websiteViewsChart,
+  },
+  {
+    color: "white",
+    title: "Type Work",
+    description: "Last Campaign Performance",
+    chart: websiteViewsChart,
+  },
+  
 ];
 
 export default statisticsChartsData;

@@ -1,68 +1,89 @@
-import React from "react";
-import {
-  Typography,
-  Card,
-  CardHeader,
-  CardBody,
-  IconButton,
-  Menu,
-  MenuHandler,
-  MenuList,
-  MenuItem,
-  Avatar,
-  Tooltip,
-  Progress,
-} from "@material-tailwind/react";
-import { EllipsisVerticalIcon, ArrowUpIcon } from "@heroicons/react/24/outline";
+import React, { useEffect, useState } from "react";
 import { StatisticsCard } from "src/widgets/cards";
 import { StatisticsChart } from "src/widgets/charts";
 import {
   statisticsCardsData,
   statisticsChartsData,
-  projectsTableData,
-  ordersOverviewData,
+  insertDataChart,
 } from "src/data";
-import { CheckCircleIcon, ClockIcon } from "@heroicons/react/24/solid";
+import { HomeServcies } from "src/services/HomeServices";
 
 export function HomePage() {
+  const homeServices = new HomeServcies();
+
+  const [cards, setCards] = useState(statisticsCardsData);
+  const [charts, setCharts] = useState(statisticsChartsData);
+
+  useEffect(() => {
+    fetch();
+  }, []);
+
+  async function fetch() {
+    const resCount = await homeServices.getCounts();
+    const resStatistics = await homeServices.getStatistics();
+
+    const tempCards = statisticsCardsData.map((item, index) => {
+      const indexing =
+        index == 0
+          ? "company"
+          : index == 1
+          ? "postActivity"
+          : index == 2
+          ? "roleIntern"
+          : "student";
+
+      const temp = {
+        ...item,
+        value: resCount[indexing],
+      };
+      return temp;
+    });
+
+    setCards(tempCards);
+
+    const tempStats = statisticsChartsData.map((item, index) => {
+      const indexing =
+        index == 0
+          ? "state"
+          : index == 1
+          ? "city"
+          : index == 2
+          ? "paid"
+          : index == 3
+          ? "typeIntern"
+          : "typeWork";
+
+      const temp = {
+        ...item,
+        chart: insertDataChart({
+          data: resStatistics[indexing].data,
+          categories: resStatistics[indexing].categories,
+        }),
+      };
+      return temp;
+    });
+
+    setCharts(tempStats);
+  }
+
   return (
     <div className="mt-12">
       <div className="mb-12 grid gap-y-10 gap-x-6 md:grid-cols-2 xl:grid-cols-4">
-        {statisticsCardsData.map(({ icon, title, footer, ...rest }) => (
+        {cards.map((props) => (
           <StatisticsCard
-            key={title}
-            {...rest}
-            title={title}
-            icon={React.createElement(icon, {
+            key={props.title}
+            title={props.title}
+            icon={React.createElement(props.icon, {
               className: "w-6 h-6 text-white",
             })}
-            footer={
-              <Typography className="font-normal text-blue-gray-600">
-                <strong className={footer.color}>{footer.value}</strong>
-                &nbsp;{footer.label}
-              </Typography>
-            }
+            color={props.color}
+            value={props.value}
           />
         ))}
       </div>
       <div className="mb-6 grid grid-cols-1 gap-y-12 gap-x-6 md:grid-cols-2 xl:grid-cols-3">
-        {statisticsChartsData.map((props) => (
-          <StatisticsChart
-            key={props.title}
-            {...props}
-            footer={
-              <Typography
-                variant="small"
-                className="flex items-center font-normal text-blue-gray-600"
-              >
-                <ClockIcon
-                  strokeWidth={2}
-                  className="h-4 w-4 text-blue-gray-400"
-                />
-                &nbsp;{props.footer}
-              </Typography>
-            }
-          />
+        {charts.map((props) => (
+          <StatisticsChart key={props.title} {...props} />
         ))}
       </div>
     </div>
