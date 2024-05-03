@@ -16,6 +16,7 @@ import {
 } from "@material-tailwind/react";
 
 import { Link } from "react-router-dom";
+import LoadComponent from "src/widgets/load";
 
 let DefaultIcon = L.icon({
   iconUrl: icon,
@@ -46,7 +47,12 @@ export function MapPage() {
     setLoading(false);
   }
 
-  if (loading) return <h1>Loading</h1>;
+  if (loading)
+    return (
+      <div className="h-screen w-full">
+        <LoadComponent />
+      </div>
+    );
 
   return (
     <div className="mb-12 min-h-[calc(100vh-200px)] grid gap-y-10 gap-x-6 md:grid-cols-2 xl:grid-cols-4">

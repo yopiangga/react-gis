@@ -6,24 +6,19 @@ import {
   IconButton,
   Breadcrumbs,
   Input,
-  Menu,
-  MenuHandler,
-  MenuList,
-  MenuItem,
   Avatar,
 } from "@material-tailwind/react";
-import {
-  UserCircleIcon,
-  Cog6ToothIcon,
-  BellIcon,
-  ClockIcon,
-  CreditCardIcon,
-  Bars3Icon,
-} from "@heroicons/react/24/solid";
+import { UserCircleIcon, Bars3Icon } from "@heroicons/react/24/solid";
+import { useContext } from "react";
+import { UserContext } from "src/context/UserContext";
+import { SidebarContext } from "src/context/SidebarContext";
 
 export function DashboardNavbar() {
   const { pathname } = useLocation();
   const [layout, page] = pathname.split("/").filter((el) => el !== "");
+
+  const { user } = useContext(UserContext);
+  const { sidebar, setSidebar } = useContext(SidebarContext);
 
   return (
     <Navbar
@@ -66,27 +61,49 @@ export function DashboardNavbar() {
             variant="text"
             color="blue-gray"
             className="grid xl:hidden"
-            onClick={() => {}}
+            onClick={() => {
+              setSidebar(!sidebar);
+            }}
           >
             <Bars3Icon strokeWidth={3} className="h-6 w-6 text-blue-gray-500" />
           </IconButton>
-          <Link to="/auth/sign-in">
-            <Button
-              variant="text"
-              color="blue-gray"
-              className="hidden items-center gap-1 px-4 xl:flex normal-case"
-            >
-              <UserCircleIcon className="h-5 w-5 text-blue-gray-500" />
-              Sign In
-            </Button>
-            <IconButton
-              variant="text"
-              color="blue-gray"
-              className="grid xl:hidden"
-            >
-              <UserCircleIcon className="h-5 w-5 text-blue-gray-500" />
-            </IconButton>
-          </Link>
+          {user == null ? (
+            <Link to="/auth/sign-in">
+              <Button
+                variant="text"
+                color="blue-gray"
+                className="hidden items-center gap-1 px-4 xl:flex normal-case"
+              >
+                <UserCircleIcon className="h-5 w-5 text-blue-gray-500" />
+                Sign In
+              </Button>
+              <IconButton
+                variant="text"
+                color="blue-gray"
+                className="grid xl:hidden"
+              >
+                <UserCircleIcon className="h-5 w-5 text-blue-gray-500" />
+              </IconButton>
+            </Link>
+          ) : (
+            <Link to="/dashboard/profile">
+              <Button
+                variant="text"
+                color="blue-gray"
+                className="hidden items-center gap-1 px-4 xl:flex normal-case"
+              >
+                <UserCircleIcon className="h-5 w-5 text-blue-gray-500" />
+                {user.name}
+              </Button>
+              <IconButton
+                variant="text"
+                color="blue-gray"
+                className="grid xl:hidden"
+              >
+                <UserCircleIcon className="h-5 w-5 text-blue-gray-500" />
+              </IconButton>
+            </Link>
+          )}
         </div>
       </div>
     </Navbar>

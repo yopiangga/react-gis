@@ -5,6 +5,7 @@ import { useContext, useEffect, useState } from "react";
 import { UserContext } from "./context/UserContext";
 import { ProfileServices } from "./services/ProfileServices";
 import { cookies } from "./services/config";
+import LoadComponent from "./widgets/load";
 
 function App() {
   const profileServices = new ProfileServices();
@@ -33,7 +34,12 @@ function App() {
     setLoading(false);
   }
 
-  if (loading) return <h1>Loading</h1>;
+  if (loading)
+    return (
+      <div className="h-screen w-full">
+        <LoadComponent />
+      </div>
+    );
   else if (user == null)
     return (
       <Routes>
