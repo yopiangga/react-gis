@@ -1,30 +1,33 @@
 import {
   BanknotesIcon,
+  BriefcaseIcon,
+  UsersIcon,
+  ArrowTopRightOnSquareIcon,
 } from "@heroicons/react/24/solid";
 
 export const statisticsCardsData = [
-{
+  {
     color: "gray",
     icon: BanknotesIcon,
     title: "Company",
     value: "",
   },
-{
+  {
     color: "gray",
-    icon: BanknotesIcon,
-    title: "Company",
+    icon: ArrowTopRightOnSquareIcon,
+    title: "Post Activity",
     value: "",
   },
-{
+  {
     color: "gray",
-    icon: BanknotesIcon,
-    title: "Company",
+    icon: BriefcaseIcon,
+    title: "Role Intern",
     value: "",
   },
-{
+  {
     color: "gray",
-    icon: BanknotesIcon,
-    title: "Company",
+    icon: UsersIcon,
+    title: "Student",
     value: "",
   },
 ];
