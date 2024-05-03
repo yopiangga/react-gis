@@ -23,7 +23,7 @@ export function DashboardNavbar() {
   return (
     <Navbar
       color={"white"}
-      className={`rounded-xl transition-all ${"sticky top-4 z-40 py-3 shadow-md shadow-blue-gray-500/5"}`}
+      className={`rounded-xl transition-all ${"sticky top-4 z-[1001] py-3 shadow-md shadow-blue-gray-500/5"}`}
       fullWidth
       blurred={true}
     >

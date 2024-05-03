@@ -56,7 +56,7 @@ export function MapPage() {
 
   return (
     <div className="mb-12 min-h-[calc(100vh-200px)] grid gap-y-10 gap-x-6 md:grid-cols-2 xl:grid-cols-4">
-      <div className="relative mt-5 col-span-4">
+      <div className="mt-5 col-span-4">
         <MapContainer
           center={[-6.175392, 106.827153]}
           zoom={13}
