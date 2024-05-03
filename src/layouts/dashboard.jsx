@@ -1,6 +1,7 @@
 import routes from "src/routes";
 import { DashboardNavbar, Sidenav, Footer } from "src/widgets/layout";
 import { Routes, Route } from "react-router-dom";
+import { Toaster } from "react-hot-toast";
 
 export function DashboardLayout() {
   return (
@@ -23,6 +24,7 @@ export function DashboardLayout() {
           <Footer />
         </div>
       </div>
+      <Toaster position="bottom-right" reverseOrder={false} />
     </div>
   );
 }

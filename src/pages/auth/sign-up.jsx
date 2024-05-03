@@ -1,7 +1,33 @@
 import { Input, Button, Typography } from "@material-tailwind/react";
+import { useState } from "react";
+import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
+import { AuthServices } from "src/services/AuthServices";
 
 export function SignUpPage() {
+  const authServices = new AuthServices();
+
+  const [data, setData] = useState({ name: "", email: "", password: "" });
+
+  const handleChange = (e) => {
+    setData({
+      ...data,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const res = await authServices.SignUp({ ...data });
+
+    if (res) {
+      toast.success("Sign In successfully");
+      document.cookie = `token=${res.token}`;
+      window.location.href = "/";
+    }
+  };
+
   return (
     <section className="m-8 flex">
       <div className="w-2/5 h-full hidden lg:block">
@@ -23,7 +49,10 @@ export function SignUpPage() {
             Enter your email and password to register.
           </Typography>
         </div>
-        <form className="mt-8 mb-2 mx-auto w-80 max-w-screen-lg lg:w-1/2">
+        <form
+          onSubmit={handleSubmit}
+          className="mt-8 mb-2 mx-auto w-80 max-w-screen-lg lg:w-1/2"
+        >
           <div className="mb-1 flex flex-col gap-6">
             <Typography
               variant="small"
@@ -39,6 +68,9 @@ export function SignUpPage() {
               labelProps={{
                 className: "before:content-none after:content-none",
               }}
+              name="name"
+              onChange={handleChange}
+              value={data.name}
             />
 
             <Typography
@@ -56,6 +88,9 @@ export function SignUpPage() {
               labelProps={{
                 className: "before:content-none after:content-none",
               }}
+              name="email"
+              onChange={handleChange}
+              value={data.email}
             />
 
             <Typography
@@ -73,10 +108,13 @@ export function SignUpPage() {
               labelProps={{
                 className: "before:content-none after:content-none",
               }}
+              name="password"
+              onChange={handleChange}
+              value={data.password}
             />
           </div>
 
-          <Button className="mt-6" fullWidth>
+          <Button className="mt-6" fullWidth type="submit">
             Register Now
           </Button>
 

@@ -1,11 +1,36 @@
-import {
-  Input,
-  Button,
-  Typography,
-} from "@material-tailwind/react";
+import { Input, Button, Typography } from "@material-tailwind/react";
+import { useState } from "react";
+import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
+import { AuthServices } from "src/services/AuthServices";
 
 export function SignInPage() {
+  const authServices = new AuthServices();
+
+  const [data, setData] = useState({
+    email: "student1@email.com",
+    password: "123456",
+  });
+
+  const handleChange = (e) => {
+    setData({
+      ...data,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const res = await authServices.SignIn({ ...data });
+
+    if (res) {
+      toast.success("Login successfully");
+      document.cookie = `token=${res.token}`;
+      window.location.href = "/";
+    }
+  };
+
   return (
     <section className="m-8 flex gap-4">
       <div className="w-full lg:w-3/5 mt-24">
@@ -21,7 +46,10 @@ export function SignInPage() {
             Enter your email and password to Sign In.
           </Typography>
         </div>
-        <form className="mt-8 mb-2 mx-auto w-80 max-w-screen-lg lg:w-1/2">
+        <form
+          onSubmit={handleSubmit}
+          className="mt-8 mb-2 mx-auto w-80 max-w-screen-lg lg:w-1/2"
+        >
           <div className="mb-1 flex flex-col gap-6">
             <Typography
               variant="small"
@@ -37,6 +65,9 @@ export function SignInPage() {
               labelProps={{
                 className: "before:content-none after:content-none",
               }}
+              name="email"
+              onChange={handleChange}
+              value={data.email}
             />
             <Typography
               variant="small"
@@ -53,10 +84,13 @@ export function SignInPage() {
               labelProps={{
                 className: "before:content-none after:content-none",
               }}
+              name="password"
+              onChange={handleChange}
+              value={data.password}
             />
           </div>
 
-          <Button className="mt-6" fullWidth>
+          <Button className="mt-6" fullWidth type="submit">
             Sign In
           </Button>
           <Typography
